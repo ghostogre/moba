@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
-import CategoryEdit from '../views/CategoryEdit.vue'
 
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',
@@ -13,7 +11,16 @@ const routes = [
     children: [
       {
         path: '/categories/create',
-        component: CategoryEdit
+        component: () => import(/* webpackChunkName: "CategoryEdit" */ "../views/CategoryEdit.vue")
+      },
+      {
+        path: '/categories/edit/:id',
+        component: () => import(/* webpackChunkName: "CategoryEdit" */ "../views/CategoryEdit.vue"),
+        props: true
+      },
+      {
+        path: '/categories/list',
+        component: () => import(/* webpackChunkName: "CategoryList" */ "../views/CategoryList.vue")
       }
     ]
   }
