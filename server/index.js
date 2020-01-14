@@ -4,6 +4,7 @@ const app = express()
 
 app.use(require('cors')())
 app.use(express.json())
+app.use('/uploads', express.static(__dirname + '/uploads')) // 静态文件托管
 
 require('./plugins/db')(app)
 require('./routers/admin')(app)

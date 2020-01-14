@@ -11,16 +11,42 @@ const routes = [
     children: [
       {
         path: '/categories/create',
-        component: () => import(/* webpackChunkName: "CategoryEdit" */ "../views/CategoryEdit.vue")
+        component: () => import(/* webpackChunkName: "CategoryEdit" */ "../views/Category/CategoryEdit.vue")
       },
       {
         path: '/categories/edit/:id',
-        component: () => import(/* webpackChunkName: "CategoryEdit" */ "../views/CategoryEdit.vue"),
+        component: () => import(/* webpackChunkName: "CategoryEdit" */ "../views/Category/CategoryEdit.vue"),
         props: true
       },
       {
         path: '/categories/list',
-        component: () => import(/* webpackChunkName: "CategoryList" */ "../views/CategoryList.vue")
+        component: () => import(/* webpackChunkName: "CategoryList" */ "../views/Category/CategoryList.vue")
+      },
+      {
+        path: '/items/create',
+        component: () => import(/* webpackChunkName: "ItemEdit" */ "../views/Item/ItemEdit.vue")
+      },
+      {
+        path: '/items/edit/:id',
+        component: () => import(/* webpackChunkName: "ItemEdit" */ "../views/Item/ItemEdit.vue"),
+        props: true
+      },
+      {
+        path: '/items/list',
+        component: () => import(/* webpackChunkName: "ItemList" */ "../views/Item/ItemList.vue")
+      },
+      {
+        path: '/heroes/create',
+        component: () => import(/* webpackChunkName: "HeroEdit" */ "../views/Hero/HeroEdit.vue")
+      },
+      {
+        path: '/heroes/edit/:id',
+        component: () => import(/* webpackChunkName: "HeroEdit" */ "../views/Hero/HeroEdit.vue"),
+        props: true
+      },
+      {
+        path: '/heroes/list',
+        component: () => import(/* webpackChunkName: "HeroList" */ "../views/Hero/HeroList.vue")
       }
     ]
   }
