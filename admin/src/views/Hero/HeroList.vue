@@ -5,6 +5,7 @@
       <el-table-column prop="_id" label="ID" width="230"></el-table-column>
       <!-- <el-table-column prop="parent.name" label="上级英雄"></el-table-column> -->
       <el-table-column prop="name" label="英雄名称"></el-table-column>
+      <el-table-column prop="title" label="称号"></el-table-column>
       <el-table-column prop="avatar" label="头像">
         <template slot-scope="scope">
           <img :src="scope.row.avatar" style="height: 3rem;" alt="">
