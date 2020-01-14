@@ -47,6 +47,19 @@ const routes = [
       {
         path: '/heroes/list',
         component: () => import(/* webpackChunkName: "HeroList" */ "../views/Hero/HeroList.vue")
+      },
+      {
+        path: '/articles/create',
+        component: () => import(/* webpackChunkName: "ArticleEdit" */ "../views/Article/ArticleEdit.vue")
+      },
+      {
+        path: '/articles/edit/:id',
+        component: () => import(/* webpackChunkName: "ArticleEdit" */ "../views/Article/ArticleEdit.vue"),
+        props: true
+      },
+      {
+        path: '/articles/list',
+        component: () => import(/* webpackChunkName: "ArticleList" */ "../views/Article/ArticleList.vue")
       }
     ]
   }

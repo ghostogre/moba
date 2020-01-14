@@ -81,6 +81,19 @@
                 path: '/heroes/list'
               }
             ]
+          },
+          {
+            name: '文章',
+            children: [
+              {
+                name: '新建文章',
+                path: '/articles/create'
+              },
+              {
+                name: '文章列表',
+                path: '/articles/list'
+              }
+            ]
           }
         ]
       }
