@@ -1,0 +1,162 @@
+// reset.css
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html {
+  font-size: 13px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.2em;
+  background-color: #f1f1f1;
+}
+
+a {
+  color: #999;
+}
+
+// colors 集合
+$colors: (
+  "primary": #db9e3f,
+  "white": #fff, // 名字冲突要用""
+  "light": #f9f9f9,
+  "grey": #999,
+  "dark-1": #343440,
+  "dark": #222,
+  "black": #000,
+);
+
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
+  }
+
+  .bg-#{$colorKey} {
+    background-color: $color;
+  }
+}
+
+// text align left center right
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var;
+  }
+}
+
+// font-size
+$base-font-size: 1rem;
+$font-sizes: (
+  xs: .769231, // 10px
+  sm: .923077, // 12px
+  md: 1, // 13px
+  lg: 1.076923, // 14px
+  xl: 1.230769 // 16px
+);
+
+@each $sizeKey, $size in $font-sizes {
+  .fs-#{$sizeKey} {
+    font-size: $size * $base-font-size;
+  }
+}
+
+// flex
+.flex-row {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+$flex-jc: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around
+);
+
+@each $key, $value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+
+$flex-ai: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around,
+  stretch: stretch
+);
+
+@each $key, $value in $flex-ai {
+  .ai-#{$key} {
+    align-items: $value;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+$spacing-types: (
+  m: margin,
+  p: padding
+);
+
+$spacing-direction: (
+  t: top,
+  b: bottom,
+  l: left,
+  r: right
+);
+
+$spacing-base-size: 1rem;
+
+// 倍数
+$spacing-sizes: (
+  0: 0,
+  1: 0.25,
+  2: 0.5,
+  3: 1,
+  4: 1.5,
+  5: 3
+);
+
+@each $typeKey, $type in $spacing-types {
+  // mt-1
+  @each $directionKey, $direction in $spacing-direction {
+    @each $sizeKey, $size in $spacing-sizes {
+      .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+        #{type}-#{$direction}: $size * $spacing-base-size;
+      }
+    }
+  }
+
+  // m-1
+  @each $sizeKey, $size in $spacing-sizes {
+    .#{typeKey}-#{$sizeKey} {
+      #{type}: #{$size};
+    }
+  }
+
+  // mx-1 上下或者左右相等
+  @each $sizeKey, $size in $spacing-sizes {
+    .#{typeKey}x-#{$sizeKey} {
+      #{type}-left: #{$size};
+      #{type}-right: #{$size};
+    }
+
+    .#{typeKey}y-#{$sizeKey} {
+      #{type}-top: #{$size};
+      #{type}-bottom: #{$size};
+    }
+  }
+}
