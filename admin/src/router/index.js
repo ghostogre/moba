@@ -60,13 +60,56 @@ const routes = [
       {
         path: '/articles/list',
         component: () => import(/* webpackChunkName: "ArticleList" */ "../views/Article/ArticleList.vue")
+      },
+      {
+        path: '/ads/create',
+        component: () => import(/* webpackChunkName: "AdEdit" */ "../views/Ad/AdEdit.vue")
+      },
+      {
+        path: '/ads/edit/:id',
+        component: () => import(/* webpackChunkName: "AdEdit" */ "../views/Ad/AdEdit.vue"),
+        props: true
+      },
+      {
+        path: '/ads/list',
+        component: () => import(/* webpackChunkName: "AdList" */ "../views/Ad/AdList.vue")
+      },
+      {
+        path: '/admin_users/create',
+        component: () => import(/* webpackChunkName: "AdminUserEdit" */ "../views/AdminUser/AdminUserEdit.vue")
+      },
+      {
+        path: '/admin_users/edit/:id',
+        component: () => import(/* webpackChunkName: "AdminUserEdit" */ "../views/AdminUser/AdminUserEdit.vue"),
+        props: true
+      },
+      {
+        path: '/admin_users/list',
+        component: () => import(/* webpackChunkName: "AdminUserList" */ "../views/AdminUser/AdminUserList.vue")
       }
+      // 在编辑页面点击新建的时候，不会切换组件？
     ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "Login" */ "../views/AdminUser/Login.vue"),
+    meta: {
+      isPublic: true
+    }
   }
 ]
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !localStorage.token) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
