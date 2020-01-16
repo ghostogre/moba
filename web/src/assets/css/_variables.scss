@@ -1,0 +1,51 @@
+// 为了在其他vue的style里引用最后分开来变量
+// colors 集合
+$colors: (
+  "primary": #db9e3f,
+  "info": #4b67af,
+  "white": #fff, // 名字冲突要用""
+  "light": #f9f9f9,
+  "light-1": #d4d9de,
+  "grey": #999,
+  "grey-1": #666,
+  "dark-1": #343440,
+  "dark": #222,
+  "black": #000
+);
+
+$border-color: map-get($map: $colors, $key: 'light-1');
+
+// font-size
+$base-font-size: 1rem;
+$font-sizes: (
+  xxs: .615385 /* 8/13 */,
+  xs: .769231, // 10px
+  sm: .923077, // 12px
+  md: 1, // 13px
+  lg: 1.076923, // 14px
+  xl: 1.230769 // 16px
+);
+
+$spacing-types: (
+  m: margin,
+  p: padding
+);
+
+$spacing-direction: (
+  t: top,
+  b: bottom,
+  l: left,
+  r: right
+);
+
+$spacing-base-size: 1rem;
+
+// 倍数
+$spacing-sizes: (
+  0: 0,
+  1: 0.25,
+  2: 0.5,
+  3: 1,
+  4: 1.5,
+  5: 3
+);
