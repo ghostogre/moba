@@ -1,10 +1,11 @@
 <template>
   <el-container style="height: 100vh;">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu router :default-openeds="['1']" unique-opened :default-active="$route.path">
+      <!-- 必须把default-openeds放入data，否则无法更新数组，总是展开默认的submenu -->
+      <el-menu router :default-openeds="defaultOpen" unique-opened :default-active="$route.path" @open="open">
         <el-submenu v-for="(item, i) in menuList" :key="i" :index="String(i + 1)">
           <template slot="title"><i class="el-icon-message"></i>{{item.name}}</template>
-          <el-menu-item-group v-for="(sub, index) in item.submenu" :key="index">
+          <el-menu-item-group v-for="(sub, index) in item.submenu" :key="index + 1">
             <template slot="title">{{sub.name}}</template>
             <el-menu-item v-for="child in sub.children" :key="child.path" :index="child.path">{{child.name}}</el-menu-item>
           </el-menu-item-group>
@@ -26,7 +27,8 @@
       </el-header>
       
       <el-main>
-        <router-view></router-view>
+        <!-- 表示用路由来区分，默认是按照组件来区分的 -->
+        <router-view :key="$route.path"></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -42,6 +44,7 @@
       };
       return {
         tableData: Array(20).fill(item),
+        defaultOpen: ['1'],
         menuList: [
           {
             name: '内容管理',
@@ -137,6 +140,12 @@
             ]
           }
         ]
+      }
+    },
+    methods: {
+      open (index) {
+        // eslint-disable-next-line no-console
+        console.log(index)
       }
     }
   };

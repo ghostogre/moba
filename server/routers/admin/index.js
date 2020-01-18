@@ -40,7 +40,7 @@ module.exports = app => {
     if (req.Model.modelName === 'Category') { // 条件判断特殊处理
       queryOptions.populate = 'parent'
     }
-    const items = await req.Model.find().setOptions(queryOptions).limit(10) // populate关联查出来，变成一个对象
+    const items = await req.Model.find().setOptions(queryOptions).limit(100) // populate关联查出来，变成一个对象
     res.send(items)
   })
   // 获取详情

@@ -9,4 +9,8 @@ module.exports = app => {
   }).catch(error => {
     console.log('failure')
   })
+
+  // 引用一遍所有模型
+  // 防止有的模型引用了别的模型又找不到
+  require('require-all')(__dirname + '/../models')
 }

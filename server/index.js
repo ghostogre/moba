@@ -10,6 +10,7 @@ app.use('/uploads', express.static(__dirname + '/uploads')) // 静态文件托�
 
 require('./plugins/db')(app)
 require('./routers/admin')(app)
+require('./routers/web')(app)
 
 app.listen(3000, () => {
   console.log('listening on port 3000')
