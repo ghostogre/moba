@@ -53,7 +53,7 @@ module.exports = app => {
   app.use(
     '/admin/api/rest/:resource',
     authMiddleware,
-    resourceMiddleware, 
+    resourceMiddleware,
     router
   )
 

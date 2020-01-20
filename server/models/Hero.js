@@ -65,4 +65,5 @@ const schema = new mongoose.Schema({
   ], // 最佳搭档
 })
 
-module.exports = mongoose.model('Hero', schema)
+// 第三个参数数据库名称
+module.exports = mongoose.model('Hero', schema, 'heroes')

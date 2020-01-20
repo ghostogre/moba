@@ -30,17 +30,31 @@
     <m-list-card title="新闻资讯" icon="menu" :categories="newsCats">
       <template #items="{ category }">
         <ul>
-          <li v-for="(item, i) in category.newsList" :key="i" class="py-2">
-            <span>[{{item.categoryName}}]</span>
-            <span>|</span>
-            <span>{{item.title}}</span>
-            <span>{{item.date}}</span>
+          <li v-for="(item, i) in category.newsList" :key="i">
+            <router-link class="py-2 fs-lg flex-row" tag="div" :to="{ name: 'articles', params: {id: item._id} }">
+              <span class="text-info">[{{item.categoryName}}]</span>
+              <span class="px-2">|</span>
+              <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{item.title}}</span>
+              <span class="text-dark fs-sm">{{item.createdAt | date}}</span>
+            </router-link>
           </li>
         </ul>
       </template>
     </m-list-card>
 
-    <m-card title="英雄列表" icon="hero"></m-card>
+    <m-list-card title="英雄列表" icon="hero" :categories="heroCats">
+      <template #items="{ category }">
+        <ul class="flex-row flex-wrap" style="margin: 0 -0.5rem;">
+          <li
+            v-for="(item, i) in category.heroList" :key="i"
+            style="width: 20%;"
+            class="p-2 text-center">
+            <img :src="item.avatar" class="w-100" alt="">
+            <div>{{item.name}}</div>
+          </li>
+        </ul>
+      </template>
+    </m-list-card>
     <m-card title="精彩视频" icon="video"></m-card>
     <m-card title="图文攻略" icon="article"></m-card>
     <m-card></m-card>
@@ -48,6 +62,7 @@
 </template>
 
 <script>
+import moment from 'moment' // dayjs
 export default {
   data () {
     return {
@@ -99,58 +114,27 @@ export default {
           iconName: 'version'
         }
       ],
-      newsCats: [
-        {
-          name: '热门',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '热门',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '新闻',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '新闻',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '公告',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '公告',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '活动',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '活动',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '赛事',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '赛事',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        }
-      ]
+      newsCats: [],
+      heroCats: []
+    }
+  },
+  methods: {
+    async fetchNewsList () {
+      const res = await this.$http.get('/news/list')
+      this.newsCats = res.data
+    },
+    async fetchHeroList () {
+      const res = await this.$http.get('/heroes/list')
+      this.heroCats = res.data
+    }
+  },
+  created() {
+    this.fetchNewsList()
+    this.fetchHeroList()
+  },
+  filters: {
+    date(val) {
+      return moment(val).format('MM/DD')
     }
   }
 }
