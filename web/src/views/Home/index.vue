@@ -30,14 +30,17 @@
     <m-list-card title="新闻资讯" icon="menu" :categories="newsCats">
       <template #items="{ category }">
         <ul>
-          <li v-for="(item, i) in category.newsList" :key="i">
-            <router-link class="py-2 fs-lg flex-row" tag="div" :to="{ name: 'articles', params: {id: item._id} }">
-              <span class="text-info">[{{item.categoryName}}]</span>
-              <span class="px-2">|</span>
-              <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{item.title}}</span>
-              <span class="text-dark fs-sm">{{item.createdAt | date}}</span>
-            </router-link>
-          </li>
+          <router-link
+            v-for="(item, i) in category.newsList"
+            :key="i"
+            class="py-2 fs-lg flex-row"
+            tag="li"
+            :to="{ name: 'articles', params: {id: item._id} }">
+            <span class="text-info">[{{item.categoryName}}]</span>
+            <span class="px-2">|</span>
+            <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{item.title}}</span>
+            <span class="text-dark fs-sm">{{item.createdAt | date}}</span>
+          </router-link>
         </ul>
       </template>
     </m-list-card>
@@ -45,13 +48,15 @@
     <m-list-card title="英雄列表" icon="hero" :categories="heroCats">
       <template #items="{ category }">
         <ul class="flex-row flex-wrap" style="margin: 0 -0.5rem;">
-          <li
+          <router-link
+            tag="li"
             v-for="(item, i) in category.heroList" :key="i"
+            :to="{ name: 'hero', params: { id: item._id } }"
             style="width: 20%;"
             class="p-2 text-center">
             <img :src="item.avatar" class="w-100" alt="">
             <div>{{item.name}}</div>
-          </li>
+          </router-link>
         </ul>
       </template>
     </m-list-card>

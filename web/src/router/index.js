@@ -23,6 +23,12 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/heroes/:id',
+    name: 'hero',
+    component: () => import(/* webpackChunkName: "hero" */ '../views/Hero/index.vue'),
+    props: true
+  }
   // {
   //   path: '/about',
   //   name: 'about',

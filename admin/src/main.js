@@ -12,7 +12,9 @@ Vue.prototype.$http = http
 // 混入
 Vue.mixin({
   computed: {
-    uploadUrl: () => (this.$http.defaults.baseURL + '/upload')
+    uploadUrl () {
+      return this.$http.defaults.baseURL + '/upload'
+    }
   },
   methods: {
     // 获取请求头
