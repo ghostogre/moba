@@ -7,6 +7,7 @@ app.set('secret', 'i23u123') // 设置到app
 app.use(require('cors')())
 app.use(express.json())
 app.use('/uploads', express.static(__dirname + '/uploads')) // 静态文件托管
+app.use('/admin/', express.static(__dirname + '/admin')) // admin编译后静态文件托管
 
 require('./plugins/db')(app)
 require('./routers/admin')(app)
