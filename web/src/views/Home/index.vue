@@ -60,8 +60,8 @@
         </ul>
       </template>
     </m-list-card>
-    <m-card title="精彩视频" icon="video"></m-card>
-    <m-card title="图文攻略" icon="article"></m-card>
+    <!-- <m-card title="精彩视频" icon="video"></m-card>
+    <m-card title="图文攻略" icon="article"></m-card> -->
   </div>
 </template>
 
