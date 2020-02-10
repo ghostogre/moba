@@ -1,14 +1,10 @@
 <template>
   <div>
-    <swiper :options="swiperOtions">
-      <swiper-slide>
-        <img class="w-100" src="../../assets/images/a1b8a8d2b528dd795684243451abadee.jpeg" alt="">
-      </swiper-slide>
-      <swiper-slide>
-        <img class="w-100" src="../../assets/images/fa6ee0151aa1724cb6f90959c55f218e.jpeg" alt="">
-      </swiper-slide>
-      <swiper-slide>
-        <img class="w-100" src="../../assets/images/51d934c4f56b17de4f0e4c9c5125d539.jpeg" alt="">
+    <swiper v-if="homeAds" :options="swiperOtions">
+      <swiper-slide v-for="item in homeAds.items" :key="item._id">
+        <a :href="item.url">
+          <img class="w-100" :src="item.image" alt="">
+        </a>
       </swiper-slide>
       <div class="swiper-pagination pagination-home text-right px-3 pb-1" slot="pagination"></div>
     </swiper>
@@ -119,7 +115,8 @@ export default {
         }
       ],
       newsCats: [],
-      heroCats: []
+      heroCats: [],
+      homeAds: null
     }
   },
   methods: {
@@ -130,6 +127,11 @@ export default {
     async fetchHeroList () {
       const res = await this.$http.get('/heroes/list')
       this.heroCats = res.data
+    },
+    // 获取首页幻灯片
+    async fetchAds () {
+      const res = await this.$http.get('/ads/home')
+      this.homeAds = res.data
     }
   },
   created() {

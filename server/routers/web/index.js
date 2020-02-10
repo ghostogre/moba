@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Article = mongoose.model('Article')
 const Category = mongoose.model('Category')
 const Hero = mongoose.model('Hero')
+const Ads = mongoose.model('Ads')
 
 module.exports = app => {
   // 制造新闻数据
@@ -142,6 +143,14 @@ module.exports = app => {
       .populate('categories items1 items2 partners.hero')
       .lean()
     res.send(data)
+  })
+
+  // 获取广告位
+  router.get('/ads', async (req, res) => {
+    const items = Ads.findOne().where({
+      name: '首页幻灯片'
+    })
+    res.send(items)
   })
 
   app.use('/web/api', router)
