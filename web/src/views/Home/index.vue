@@ -137,6 +137,7 @@ export default {
   created() {
     this.fetchNewsList()
     this.fetchHeroList()
+    this.fetchAds()
   },
   filters: {
     date(val) {
