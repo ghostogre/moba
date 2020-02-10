@@ -146,7 +146,7 @@ module.exports = app => {
   })
 
   // 获取广告位
-  router.get('/ads', async (req, res) => {
+  router.get('/ads/home', async (req, res) => {
     const items = Ads.findOne().where({
       name: '首页幻灯片'
     })
