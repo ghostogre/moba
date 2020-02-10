@@ -150,7 +150,6 @@ module.exports = app => {
     const data = await Ad.findOne().where({
       name: '首页幻灯片'
     }).lean()
-    console.log(data)
     res.send(data)
   })
 
