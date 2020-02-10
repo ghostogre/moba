@@ -66,7 +66,7 @@ module.exports = app => {
     upload.single('file'), // 字段名叫file看前端传的字段名，single表示单个文件
     async (req, res) => {
       const file = req.file
-      file.url = `http://localhost:3000/uploads/${file.filename}`
+      file.url = `http://www.hypermoba.xyz/uploads/${file.filename}`
       res.send(file)
     }
   )
