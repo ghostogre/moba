@@ -147,10 +147,11 @@ module.exports = app => {
 
   // 获取广告位
   router.get('/ads/home', async (req, res) => {
-    const items = Ad.findOne().where({
+    const data = await Ad.findOne().where({
       name: '首页幻灯片'
     }).lean()
-    res.send(items)
+    console.log(data)
+    res.send(data)
   })
 
   app.use('/web/api', router)
