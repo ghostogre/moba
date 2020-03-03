@@ -3,6 +3,8 @@
     <h3>点击开始，查看你的本命英雄</h3>
     <section class="slot-machine">
       <slot-machine
+        :data="heroes"
+        imgLabel="avatar"
         bg="//game.gtimg.cn/images/yxzj/cp/a20161115tyf/flash_bg.jpg"
         ></slot-machine>
     </section>
@@ -18,7 +20,16 @@ export default {
   },
   data () {
     return {
-
+      heroes: []
+    }
+  },
+  created() {
+    this.getHeroes()
+  },
+  methods: {
+    async getHeroes () {
+      const res = await this.$http.get('/heroes/list')
+      this.heroes = res.data ? res.data[0].heroList: []
     }
   }
 }
