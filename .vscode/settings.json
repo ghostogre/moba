@@ -1,3 +1,4 @@
 {
-  "px2rem.rootFontSize": 13
+  "px2rem.rootFontSize": 13,
+  "px2rem.fixedDigits": 3
 }

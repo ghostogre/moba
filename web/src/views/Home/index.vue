@@ -1,14 +1,10 @@
 <template>
   <div>
-    <swiper :options="swiperOtions">
-      <swiper-slide>
-        <img class="w-100" src="../../assets/images/a1b8a8d2b528dd795684243451abadee.jpeg" alt="">
-      </swiper-slide>
-      <swiper-slide>
-        <img class="w-100" src="../../assets/images/fa6ee0151aa1724cb6f90959c55f218e.jpeg" alt="">
-      </swiper-slide>
-      <swiper-slide>
-        <img class="w-100" src="../../assets/images/51d934c4f56b17de4f0e4c9c5125d539.jpeg" alt="">
+    <swiper v-if="homeAds" :options="swiperOtions">
+      <swiper-slide v-for="item in homeAds.items" :key="item._id">
+        <a :href="item.url">
+          <img class="w-100" :src="item.image" alt="">
+        </a>
       </swiper-slide>
       <div class="swiper-pagination pagination-home text-right px-3 pb-1" slot="pagination"></div>
     </swiper>
@@ -30,24 +26,43 @@
     <m-list-card title="新闻资讯" icon="menu" :categories="newsCats">
       <template #items="{ category }">
         <ul>
-          <li v-for="(item, i) in category.newsList" :key="i" class="py-2">
-            <span>[{{item.categoryName}}]</span>
-            <span>|</span>
-            <span>{{item.title}}</span>
-            <span>{{item.date}}</span>
-          </li>
+          <router-link
+            v-for="(item, i) in category.newsList"
+            :key="i"
+            class="py-2 fs-lg flex-row"
+            tag="li"
+            :to="{ name: 'articles', params: {id: item._id} }">
+            <span class="text-info">[{{item.categoryName}}]</span>
+            <span class="px-2">|</span>
+            <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{item.title}}</span>
+            <span class="text-dark fs-sm">{{item.createdAt | date}}</span>
+          </router-link>
         </ul>
       </template>
     </m-list-card>
 
-    <m-card title="英雄列表" icon="hero"></m-card>
-    <m-card title="精彩视频" icon="video"></m-card>
-    <m-card title="图文攻略" icon="article"></m-card>
-    <m-card></m-card>
+    <m-list-card title="英雄列表" icon="hero" :categories="heroCats">
+      <template #items="{ category }">
+        <ul class="flex-row flex-wrap" style="margin: 0 -0.5rem;">
+          <router-link
+            tag="li"
+            v-for="(item, i) in category.heroList" :key="i"
+            :to="{ name: 'hero', params: { id: item._id } }"
+            style="width: 20%;"
+            class="p-2 text-center">
+            <img :src="item.avatar" class="w-100" alt="">
+            <div>{{item.name}}</div>
+          </router-link>
+        </ul>
+      </template>
+    </m-list-card>
+    <!-- <m-card title="精彩视频" icon="video"></m-card>
+    <m-card title="图文攻略" icon="article"></m-card> -->
   </div>
 </template>
 
 <script>
+import moment from 'moment' // dayjs
 export default {
   data () {
     return {
@@ -99,58 +114,34 @@ export default {
           iconName: 'version'
         }
       ],
-      newsCats: [
-        {
-          name: '热门',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '热门',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '新闻',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '新闻',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '公告',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '公告',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '活动',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '活动',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        },
-        {
-          name: '赛事',
-          newsList: new Array(5).fill({}).map(() => (
-            {
-              categoryName: '赛事',
-              title: '标题',
-              date: '01/16'
-            }
-          ))
-        }
-      ]
+      newsCats: [],
+      heroCats: [],
+      homeAds: null
+    }
+  },
+  methods: {
+    async fetchNewsList () {
+      const res = await this.$http.get('/news/list')
+      this.newsCats = res.data
+    },
+    async fetchHeroList () {
+      const res = await this.$http.get('/heroes/list')
+      this.heroCats = res.data
+    },
+    // 获取首页幻灯片
+    async fetchAds () {
+      const res = await this.$http.get('/ads/home')
+      this.homeAds = res.data
+    }
+  },
+  created() {
+    this.fetchNewsList()
+    this.fetchHeroList()
+    this.fetchAds()
+  },
+  filters: {
+    date(val) {
+      return moment(val).format('MM/DD')
     }
   }
 }

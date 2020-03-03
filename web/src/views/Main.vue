@@ -3,10 +3,10 @@
     <div class="topbar bg-black py-2 px-3 flex-row ai-center">
       <img src="../assets/logo.png" height="30" alt="">
       <div class="px-2 flex-1">
-        <div class="text-white">积分夺宝</div>
-        <div class="text-grey-1 fs-xxs">游玩赚积分</div>
+        <div class="text-white">本命英雄</div>
+        <div class="text-grey-1 fs-xxs">快去查看你的本命英雄吧</div>
       </div>
-      <button class="btn bg-primary text-white" @click="$router.push('/slot')">点击参与</button>
+      <button class="btn bg-primary text-white" @click="$router.push('/slot')">点击查看</button>
     </div>
     <div class="pt-3 pb-2 bg-primary">
       <div class="nav text-white pb-1 nav-inverse jc-around">
@@ -24,12 +24,6 @@
     <router-view></router-view>
   </div>
 </template>
-
-<script>
-export default {
-
-}
-</script>
 
 <style lang="scss" scoped>
   .topbar {

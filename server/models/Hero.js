@@ -4,6 +4,7 @@ const schema = new mongoose.Schema({
   name: { type: String },
   avatar: { type: String },
   title: { type: String },
+  banner: { type: String },
   categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }], // 类别可以是多个
   scores: { 
     diffcult: {
@@ -31,6 +32,12 @@ const schema = new mongoose.Schema({
     },
     tips: {
       type: String
+    },
+    delay: {
+      type: String
+    },
+    cost: {
+      type: String
     }
   }],
   // 出装
@@ -56,7 +63,7 @@ const schema = new mongoose.Schema({
     {
       hero: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'hero'
+        ref: 'Hero'
       },
       description: {
         type: String
@@ -65,4 +72,5 @@ const schema = new mongoose.Schema({
   ], // 最佳搭档
 })
 
-module.exports = mongoose.model('Hero', schema)
+// 第三个参数数据库名称
+module.exports = mongoose.model('Hero', schema, 'heroes')
