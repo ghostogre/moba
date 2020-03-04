@@ -26,7 +26,10 @@ schema.virtual('newsList', {
   localField: '_id', // 本地键
   foreignField: 'categories', // 外地健
   justOne: false, // 返回是不是单条
-  ref: 'Article' // 字段来源
+  ref: 'Article', // 字段来源
+  options: {
+    limit: 5
+  }
 })
 
 module.exports = mongoose.model('Category', schema)

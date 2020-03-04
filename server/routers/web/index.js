@@ -28,54 +28,54 @@ module.exports = app => {
   })
 
   router.get('/news/list', async (req, res) => {
-    // const cats = await Category.findOne({
-    //   name: '新闻分类'
-    // }).populate({ // 关联表
-    //   path: 'children',
-    //   populate: {
-    //     path: 'newsList'
-    //   }
-    // })
+    const cats = await Category.findOne({
+      name: '新闻分类'
+    }).populate({ // 关联表
+      path: 'children',
+      populate: {
+        path: 'newsList'
+      }
+    })
     // 这种方法有个问题
 
-    const parent = await Category.findOne({
-      name: '新闻分类'
-    })
-    // MongoDB的聚合管道将MongoDB文档在一个管道处理完毕后将结果传递给下一个管道处理。
-    let cats = await Category.aggregate([
-      { $match: { parent: parent._id } }, // $match：匹配
-      {
-        $lookup: {
-          from: 'articles', // 等待被JOIN的集合，集合名默认是mongoose.model第一个参数的小写加复数的形式
-          localField: '_id', // 源集合中的match值
-          foreignField: 'categories', // 待Join的集合的match值
-          as: 'newsList' // 为输出文档的新增值命名
-        }
-      },
-      {
-        $addFields: { // 添加字段
-          newsList: {
-            $slice: ['$newsList', 5] // 值为原文档对象中newsList
-          }
-        }
-      }
-    ])
+    // const parent = await Category.findOne({
+    //   name: '新闻分类'
+    // })
+    // // MongoDB的聚合管道将MongoDB文档在一个管道处理完毕后将结果传递给下一个管道处理。
+    // let cats = await Category.aggregate([
+    //   { $match: { parent: parent._id } }, // $match：匹配
+    //   {
+    //     $lookup: {
+    //       from: 'articles', // 等待被JOIN的集合，集合名默认是mongoose.model第一个参数的小写加复数的形式
+    //       localField: '_id', // 源集合中的match值
+    //       foreignField: 'categories', // 待Join的集合的match值
+    //       as: 'newsList' // 为输出文档的新增值命名
+    //     }
+    //   },
+    //   {
+    //     $addFields: { // 添加字段
+    //       newsList: {
+    //         $slice: ['$newsList', 5] // 值为原文档对象中newsList
+    //       }
+    //     }
+    //   }
+    // ])
 
-    const subCats = cats.map(v => v._id)
-    cats.unshift({
-      name: '热门',
-      newsList: await Article.find().where({
-        categories: { $in: subCats } // $in查询关键字，满足后面的数组内就可以查出来
-      }).populate('categories').limit(5).lean()
-    })
+    // const subCats = cats.map(v => v._id)
+    // cats.unshift({
+    //   name: '热门',
+    //   newsList: await Article.find().where({
+    //     categories: { $in: subCats } // $in查询关键字，满足后面的数组内就可以查出来
+    //   }).populate('categories').limit(5).lean()
+    // })
 
-    cats.map(cat => {
-      cat.newsList.map(news => {
-        // 热门特殊处理
-        news.categoryName = cat.name === '热门' ? news.categories[0].name : cat.name
-        return news
-      })
-    })
+    // cats.map(cat => {
+    //   cat.newsList.map(news => {
+    //     // 热门特殊处理
+    //     news.categoryName = cat.name === '热门' ? news.categories[0].name : cat.name
+    //     return news
+    //   })
+    // })
     res.send(cats)
   })
 
