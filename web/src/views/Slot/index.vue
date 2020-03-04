@@ -5,6 +5,8 @@
       <slot-machine
         :data="heroes"
         imgLabel="avatar"
+        :matchResult="match"
+        @start="requestResult"
         bg="//game.gtimg.cn/images/yxzj/cp/a20161115tyf/flash_bg.jpg"
         ></slot-machine>
     </section>
@@ -20,7 +22,8 @@ export default {
   },
   data () {
     return {
-      heroes: []
+      heroes: [],
+      match: () => {}
     }
   },
   created() {
@@ -30,6 +33,14 @@ export default {
     async getHeroes () {
       const res = await this.$http.get('/heroes/list')
       this.heroes = res.data ? res.data[0].heroList: []
+    },
+    requestResult () {
+      setTimeout(() => {
+        let id = this.heroes[1]._id
+        this.match = (item) => {
+          return item._id === id
+        }
+      }, 5000)
     }
   }
 }
