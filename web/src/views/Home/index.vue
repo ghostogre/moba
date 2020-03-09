@@ -50,7 +50,9 @@
             :to="{ name: 'hero', params: { id: item._id } }"
             style="width: 20%;"
             class="p-2 text-center">
-            <img :src="item.avatar" class="w-100" alt="">
+            <div class="heroAvatar">
+              <img :src="item.avatar" class="w-100 heroAvatar__img" alt="">
+            </div>
             <div>{{item.name}}</div>
           </router-link>
         </ul>
@@ -179,4 +181,14 @@ export default {
     height: 1.846154rem /* 24/13 */;
   }
 
+  .heroAvatar {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%; // 设置成百分比的时候就是相对于父元素宽度
+    &__img {
+      position: absolute;
+      width: 100%;
+      left: 0;
+    }
+  }
 </style>

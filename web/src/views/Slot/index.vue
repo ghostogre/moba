@@ -36,11 +36,13 @@ export default {
     },
     requestResult () {
       setTimeout(() => {
-        let id = this.heroes[1]._id
+        // 伪随机
+        const index = Math.floor((this.heroes.length - 1) * Math.random())
+        let id = this.heroes[index]._id
         this.match = (item) => {
           return item._id === id
         }
-      }, 5000)
+      }, 3000)
     }
   }
 }

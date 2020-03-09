@@ -9,7 +9,7 @@
         <div class="nav-link">{{category.name}}</div>
       </li>
     </ul>
-    <div class="pt-3">
+    <div class="pt-3" style="box-sizing: border-box;">
       <swiper
         ref="list"
         :options="{ autoHeight: true }"
@@ -45,7 +45,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  
-</style>
