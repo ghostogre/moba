@@ -46,7 +46,7 @@
         <ul class="flex-row flex-wrap" style="margin: 0 -0.5rem;">
           <router-link
             tag="li"
-            v-for="(item, i) in category.heroList" :key="i"
+            v-for="(item) in category.heroList" :key="item._id"
             :to="{ name: 'hero', params: { id: item._id } }"
             style="width: 20%;"
             class="p-2 text-center">
