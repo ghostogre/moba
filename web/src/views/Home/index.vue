@@ -51,7 +51,7 @@
             style="width: 20%;"
             class="p-2 text-center">
             <div class="heroAvatar">
-              <img :src="item.avatar" class="w-100 heroAvatar__img" alt="">
+              <img :src="item.avatar" class="heroAvatar__img" alt="">
             </div>
             <div>{{item.name}}</div>
           </router-link>
@@ -184,10 +184,11 @@ export default {
   .heroAvatar {
     position: relative;
     overflow: hidden;
+    text-align: center;
     padding-bottom: 100%; // 设置成百分比的时候就是相对于父元素宽度
     &__img {
       position: absolute;
-      width: 100%;
+      height: 100%;
       left: 0;
     }
   }

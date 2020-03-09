@@ -1,5 +1,5 @@
 <template>
-  <m-card title="新闻资讯" icon="menu">
+  <m-card :title="title" icon="menu">
     <ul class="nav flex-row jc-between">
       <li
         v-for="(category, index) in categories"
