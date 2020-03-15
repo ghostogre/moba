@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+// import '../prerender/public-path'
 import './assets/css/style.scss'
 import 'normalize.css'
 import router from './router'
@@ -22,5 +23,9 @@ Vue.prototype.$http = http
 
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+  mounted() {
+    // 预编译
+    document.dispatchEvent(new Event('render-event')) 
+  }
 }).$mount('#app')

@@ -1,11 +1,14 @@
 const ENV = process.env.NODE_ENV || 'development'
 const compressionWebpackPlugin = require('compression-webpack-plugin')
+const PrerenderSpaPlugin = require('prerender-spa-plugin')
+const Renderer = PrerenderSpaPlugin.PuppeteerRenderer
+const path = require('path')
 
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
     ? '/'
     : '/',
-  outputDir: __dirname + '/../server/web', // 编译输出文件夹
+  outputDir: path.join(__dirname, '../server/web'), // 编译输出文件夹
   configureWebpack: config => {
     // config就是webpack.config.js
     if (ENV === 'production') {
@@ -15,6 +18,18 @@ module.exports = {
         test: /\.(js|css|html)$/,
         threshold: 10240, // 只处理大于此子节数的才处理
         minRatio: 0.8 // 压缩的比例
+      }))
+      // 服务器配置预加载
+      config.plugins.push(new PrerenderSpaPlugin({
+        staticDir: path.join(__dirname, '../server/web'),
+        routes: ['/', '/articles/:id/', '/hero/:id/'], // Required - Routes to render
+        renderer: new Renderer({
+          headless: true, // 无头浏览器
+          renderAfterDocumentEvent: 'render-event',
+          renderAfterTime: 5000,
+          navigationOptions: { timeout: 0 },
+          timeout: 0
+        })
       }))
       // 不打包第三方包
       config.externals = {
