@@ -22,13 +22,11 @@ module.exports = {
       // 服务器配置预加载
       config.plugins.push(new PrerenderSpaPlugin({
         staticDir: path.join(__dirname, '../server/web'),
-        routes: ['/', '/articles/:id/', '/hero/:id/'], // Required - Routes to render
+        routes: ['/', '/articles/:id', '/hero/:id'], // Required - Routes to render
         renderer: new Renderer({
           headless: true, // 无头浏览器
-          renderAfterDocumentEvent: 'render-event',
-          renderAfterTime: 5000,
-          navigationOptions: { timeout: 0 },
-          timeout: 0
+          renderAfterTime: 10000,
+          ignoreJSErrors: true
         })
       }))
       // 不打包第三方包
