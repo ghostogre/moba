@@ -3,7 +3,8 @@
     <swiper v-if="homeAds" :options="swiperOtions">
       <swiper-slide v-for="item in homeAds.items" :key="item._id">
         <a :href="item.url">
-          <img class="w-100" v-lazy="item.image" :key="item.image" alt="">
+          <!-- 不能使用lazyload 否则高度会出现bug -->
+          <img class="w-100" :src="item.image" alt="">
         </a>
       </swiper-slide>
       <div class="swiper-pagination pagination-home text-right px-3 pb-1" slot="pagination"></div>
