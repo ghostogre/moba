@@ -65,7 +65,7 @@
                       class="icon"
                       :class="{ 'active': currentSkillIndex === i }"
                       @click="currentSkillIndex = i"
-                      v-lazy="item.icon"
+                      :src="item.icon"
                       alt="">
                   </div>
                   <div v-if="currentSkill">
@@ -85,7 +85,7 @@
                 <div class="fs-xl">顺风出装</div>
                 <div class="flex-row jc-around text-center mt-3">
                   <div v-for="item in model.items1" :key="item.name" >
-                    <img class="icon" v-lazy="item.icon" :key="item.icon" alt="">
+                    <img class="icon" :src="item.icon" :key="item.icon" alt="">
                     <div class="fs-xs">{{item.name}}</div>
                   </div>
                 </div>
@@ -93,7 +93,7 @@
                 <div class="fs-xl mt-3">逆风出装</div>
                 <div class="flex-row jc-around text-center mt-3">
                   <div v-for="item in model.items2" :key="item.name" >
-                    <img class="icon" v-lazy="item.icon" :key="item.icon" alt="">
+                    <img class="icon" :src="item.icon" :key="item.icon" alt="">
                     <div class="fs-xs">{{item.name}}</div>
                   </div>
                 </div>
@@ -111,7 +111,7 @@
                 <dl>
                   <dt class="fs-xl">最佳搭档</dt>
                   <dd v-for="item in model.partners" :key="item._id" class="flex-row pt-3">
-                    <img v-lazy="item.hero.avatar" :key="item._id" height="50" alt="">
+                    <img :src="item.hero.avatar" :key="item._id" height="50" alt="">
                     <p class="flex-1 my-0 ml-3">{{item.description}}</p>
                   </dd>
                 </dl>
@@ -149,7 +149,9 @@ export default {
     }
   },
   created() {
-    this.fetch()
+    if (this.id) {
+      this.fetch()
+    }
   },
   methods: {
     async fetch () {
