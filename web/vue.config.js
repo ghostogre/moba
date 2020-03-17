@@ -1,7 +1,7 @@
 const ENV = process.env.NODE_ENV || 'development'
 const compressionWebpackPlugin = require('compression-webpack-plugin')
-// const PrerenderSpaPlugin = require('prerender-spa-plugin')
-// const Renderer = PrerenderSpaPlugin.PuppeteerRenderer
+const PrerenderSpaPlugin = require('prerender-spa-plugin') 
+const Renderer = PrerenderSpaPlugin.PuppeteerRenderer
 const path = require('path')
 
 module.exports = {
@@ -20,15 +20,17 @@ module.exports = {
         minRatio: 0.8 // 压缩的比例
       }))
       // 服务器配置预加载
-      // config.plugins.push(new PrerenderSpaPlugin({
-      //   staticDir: path.join(__dirname, '../server/web'),
-      //   routes: ['/', '/articles/:id', '/hero/:id'], // Required - Routes to render
-      //   renderer: new Renderer({
-      //     headless: true, // 无头浏览器
-      //     renderAfterTime: 10000,
-      //     ignoreJSErrors: true
-      //   })
-      // }))
+      config.plugins.push(new PrerenderSpaPlugin({
+        staticDir: path.join(__dirname, '../server/web'),
+        // 不支持动态路由:param
+        // 页面中不能使用懒加载
+        routes: ['/', '/slot'], // Required - Routes to render
+        renderer: new Renderer({
+          headless: true, // 无头浏览器
+          maxConcurrentRoutes: 4,
+          renderAfterDocumentEvent: "render-event"
+        })
+      }))
       // 不打包第三方包
       config.externals = {
         'vue': 'Vue',
