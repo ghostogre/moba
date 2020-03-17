@@ -3,7 +3,7 @@
     <swiper v-if="homeAds" :options="swiperOtions">
       <swiper-slide v-for="item in homeAds.items" :key="item._id">
         <a :href="item.url">
-          <img class="w-100" :src="item.image" alt="">
+          <img class="w-100" :src="item.image" :key="item.image" alt="">
         </a>
       </swiper-slide>
       <div class="swiper-pagination pagination-home text-right px-3 pb-1" slot="pagination"></div>
@@ -51,7 +51,7 @@
             style="width: 20%;"
             class="p-2 text-center">
             <div class="heroAvatar">
-              <img :src="item.avatar" class="heroAvatar__img" alt="">
+              <img :src="item.avatar" :key="item.avatar" class="heroAvatar__img" alt="">
             </div>
             <div>{{item.name}}</div>
           </router-link>

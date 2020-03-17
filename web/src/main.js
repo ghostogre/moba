@@ -7,6 +7,9 @@ import router from './router'
 import http from './utils/http'
 import './assets/font/iconfont.css'
 
+import Lazyload from 'vue-lazyload'
+Vue.use(Lazyload)
+
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 Vue.use(VueAwesomeSwiper)
