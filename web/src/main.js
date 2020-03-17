@@ -7,6 +7,7 @@ import router from './router'
 import http from './utils/http'
 import './assets/font/iconfont.css'
 
+// 只要页面中使用了Lazyload不管是什么页面都会引起预渲染的失败
 import Lazyload from 'vue-lazyload'
 Vue.use(Lazyload)
 

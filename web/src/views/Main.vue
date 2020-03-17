@@ -17,7 +17,7 @@
           <router-link class="nav-link" to="" tag="span">攻略中心</router-link>
         </div>
         <div class="nav-item">
-          <router-link class="nav-link" to="" tag="span">首页</router-link>
+          <router-link class="nav-link" to="/activity" tag="span">荣耀抢金币</router-link>
         </div>
       </div>
     </div>
