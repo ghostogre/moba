@@ -29,12 +29,6 @@ const routes = [
         name: 'hero',
         component: () => import(/* webpackChunkName: "hero" */ '../views/Hero/index.vue'),
         props: true
-      },
-      {
-        path: '/activity',
-        name: 'activity',
-        component: () => import(/* webpackChunkName: "activity" */ '../views/Activity/index.vue'),
-        props: true
       }
     ]
   },
@@ -46,6 +40,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "slot" */ '../views/Slot/index.vue')
     // component: Slot
+  },
+  {
+    path: '/activity',
+    name: 'activity',
+    component: () => import(/* webpackChunkName: "activity" */ '../views/Activity/index.vue'),
+    props: true
   }
 ]
 
