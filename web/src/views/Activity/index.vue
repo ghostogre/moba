@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div
+    :style="{
+      backgroundSize: 'cover',
+      backgroundImage: `url(${bgImg})`,
+      height: `${scrollHeight}px`,
+      width: `${scrollWidth}px`
+    }">
+    <!-- 背景图不会变化 -->
     <canvas
       class="canvas w-100"
       ref="activity"
@@ -20,9 +27,9 @@ export default {
   data () {
     return {
       ctx: null,
+      bgImg: require('@/assets/images/bg.webp'),
       // 加载图片列表,base4图片需要使用Image加载
       imgs: [
-        require('@/assets/images/bg.webp'),
         require('@/assets/images/coin.webp'),
         require('@/assets/images/plusone.webp')
       ],
@@ -34,7 +41,9 @@ export default {
       addCoinTimer: null,
       // 点击冒泡列表
       bubbleArr: [],
-      preloaded: false // 是否开始动画前的倒计时
+      preloaded: false, // 是否开始动画前的倒计时
+      bubbleCanvas: null, // 气泡缓存
+      coinCanvas: [] // 金币缓存
     }
   },
   computed: {
@@ -72,10 +81,7 @@ export default {
           // 成功的回调
           image.onload = () => {
             count++
-            arr.splice(i, 1, {
-              img: image,
-              offScreenCanvas: this.createOffScreenCanvas(image)
-            }) // 替换数组中的图片链接为图片地址
+            arr.splice(i, 1, image) // 替换数组中的图片链接为图片地址
             if (count === len) {
               this.preloaded = true
               resolve()
@@ -88,17 +94,17 @@ export default {
 
     // 离屏canvas
     // 不同的canvas元素过多的情况下最好不要使用离屏，不然太多缓存区还不如不使用离屏
-    createOffScreenCanvas (image) {
+    createOffScreenCanvas (image, width, height) {
       const offScreenCanvas = document.createElement('canvas') // new OffscreenCanvas(width, height)
       const ctx = offScreenCanvas.getContext('2d')
-      offScreenCanvas.width = image.width
-      offScreenCanvas.height = image.height
+      offScreenCanvas.width = width
+      offScreenCanvas.height = height
       ctx.drawImage(
         image,
         0,
         0,
-        offScreenCanvas.width,
-        offScreenCanvas.height
+        width,
+        height
       )
       return offScreenCanvas
     },
@@ -108,6 +114,14 @@ export default {
       if (canvas.getContext) {
         this.ctx = canvas.getContext('2d')
         this.loadImg(this.imgs).then(() => {
+          // 这里缓存是因为图片有缩放
+          this.bubbleCanvas = this.createOffScreenCanvas(this.imgs[1], offScreenCoin[0], offScreenCoin[0])
+          for (let i = 0, len = offScreenCoin.length; i < len; i++) {
+            this.coinCanvas.push({
+              size: offScreenCoin[i],
+              offScreenCanvas: this.createOffScreenCanvas(this.imgs[0], offScreenCoin[i], offScreenCoin[i])
+            })
+          }
           this.start()
         })
       }
@@ -124,9 +138,7 @@ export default {
         this.ctx.drawImage(
           coin.img,
           coin.x,
-          coin.y,
-          coin.size,
-          coin.size
+          coin.y
         )
       })
     },
@@ -136,7 +148,6 @@ export default {
       // 每一帧都要先清空
       window.cancelAnimationFrame(this.moveCoinAnimation)
       this.ctx.clearRect(0, 0, this.scrollWidth, this.scrollHeight)
-      this.ctx.drawImage(this.imgs[0].offScreenCanvas, 0, 0, this.scrollWidth, this.scrollHeight)
       // 绘制金币
       this.drawCoins()
       // 不断的绘制形成动画
@@ -150,7 +161,7 @@ export default {
       let x = 10 // 10保证不贴边
       // let rmax = Math.floor((this.scrollWidth - 20) / sum)
       for (let i = 0; i < sum; i++) {
-        const size = this.randomSize() // 随机的宽度
+        const {size, offScreenCanvas} = this.randomSize() // 随机的宽度
         x += this.calcPosition(x, size, sum - i - 1)
         let speed = Math.random * 20
         // 创建新的金币对象
@@ -158,7 +169,7 @@ export default {
           x,
           y: -size,
           size,
-          img: this.imgs[1].offScreenCanvas,
+          img: offScreenCanvas,
           speed: speed > 5 ? speed: 5 // 保证速度不会过慢
         }
         x += size
@@ -177,7 +188,7 @@ export default {
     },
     // 随机获取宽度的离屏canvas
     randomSize () {
-      return offScreenCoin[Math.floor(Math.random() * 10 % 3)]
+      return this.coinCanvas[Math.floor(Math.random() * 10 % 3)]
     },
     // 开始
     start () {
@@ -229,7 +240,7 @@ export default {
         if (bubble.opacity > 0) {
           this.ctx.save()
           this.ctx.globalAlpha = bubble.opacity
-          this.ctx.drawImage(this.imgs[2].offScreenCanvas, bubble.x, bubble.y, 50, 50)
+          this.ctx.drawImage(this.bubbleCanvas, bubble.x, bubble.y)
           this.bubbleArr.splice(index, 1, {
             ...bubble,
             opacity: bubble.opacity - 0.02
@@ -242,3 +253,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+</style>

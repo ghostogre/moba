@@ -33,7 +33,13 @@ new Vue({
   mounted() {
     // 预编译
     // document.dispatchEvent(new Event('render-event'))
-    this.$store.commit('APP/SET_SCROLL_HEIGHT', document.documentElement.scrollHeight || document.body.scrollHeight)
-    this.$store.commit('APP/SET_SCROLL_WIDTH', document.documentElement.scrollWidth || document.body.scrollWidth)
+    this.setScreenSize()
+    document.addEventListener('resize', this.setScreenSize)
+  },
+  methods: {
+    setScreenSize () {
+      this.$store.commit('APP/SET_SCROLL_HEIGHT', document.documentElement.scrollHeight || document.body.scrollHeight)
+      this.$store.commit('APP/SET_SCROLL_WIDTH', document.documentElement.scrollWidth || document.body.scrollWidth)
+    } 
   }
 }).$mount('#app')
