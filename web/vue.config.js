@@ -40,10 +40,5 @@ module.exports = {
       }
     }
   },
-  productionSourceMap: false,
-  devServer: {
-    historyApiFallback: {
-      index: 'index.html'
-    }
-  },
+  productionSourceMap: false
 } // 生成静态文件路径
