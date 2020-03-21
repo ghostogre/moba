@@ -44,8 +44,7 @@ const routes = [
   {
     path: '/activity',
     name: 'activity',
-    component: () => import(/* webpackChunkName: "activity" */ '../views/Activity/index.vue'),
-    props: true
+    component: () => import(/* webpackChunkName: "activity" */ '../views/Activity/index.vue')
   }
 ]
 
