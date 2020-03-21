@@ -40,5 +40,10 @@ module.exports = {
       }
     }
   },
-  productionSourceMap: false
+  productionSourceMap: false,
+  devServer: {
+    historyApiFallback: {
+      index: 'index.html'
+    }
+  },
 } // 生成静态文件路径
