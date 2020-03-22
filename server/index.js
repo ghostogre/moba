@@ -3,9 +3,7 @@ const history = require('connect-history-api-fallback')
 
 const app = express()
 
-app.use(history({
-  index: '/index.html'
-}))
+app.use(history())
 
 app.set('secret', 'i23u123') // 设置到app
 
