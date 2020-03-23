@@ -13,10 +13,12 @@ app.use('/uploads', express.static(__dirname + '/uploads')) // 静态文件托�
 // app.use('/admin', history(), express.static(__dirname + '/admin')) // admin编译后静态文件托管
 // app.use('/', history(), express.static(__dirname + '/web')) // web编译后静态文件托管
 app.use('/', async (req, res, next) => {
-  if (req.url.startsWith('/admin')) {
-    res.sendFile('./admin/index.html')
+  if (req.url.startsWith('/admin/api') || req.url.startsWith('/web/api')) {
+    next()
+  } if (req.url.startsWith('/admin')) {
+    res.sendFile(__dirname + '/admin/index.html')
   } else {
-    res.sendFile('./web/index.html')
+    res.sendFile(__dirname + '/web/index.html')
   }
 })
 
