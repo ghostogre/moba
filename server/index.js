@@ -1,6 +1,6 @@
 const express = require('express')
 // 路由开启history模式
-// const history = require('connect-history-api-fallback')
+const history = require('connect-history-api-fallback')
 
 const app = express()
 
