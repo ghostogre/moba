@@ -6,7 +6,7 @@ class Banner extends Component {
   render() {
     const { data = [] } = this.props
     return (
-      <div className="swiper-container">
+      <div className="swiper-container" id="banner-swiper">
         <div className="swiper-wrapper">
           {
             data.map((item) => (
@@ -23,7 +23,7 @@ class Banner extends Component {
     );
   }
   componentDidMount () {
-    new Swiper('.swiper-container', {
+    new Swiper('#banner-swiper', {
       loop: true,
       pagination: {
         el: '.swiper-pagination',
