@@ -14,10 +14,7 @@ require('./routers/admin')(app)
 require('./routers/web')(app)
 app.use('/uploads', express.static(__dirname + '/uploads')) // 静态文件托管
 app.use('/admin', express.static(__dirname + '/admin')) // admin编译后静态文件托管
-app.use('/', history({
-  disableDotRule: true,
-  htmlAcceptHeaders: ['text/html', 'application/xhtml+xml']
-}), express.static(__dirname + '/web')) // web编译后静态文件托管
+app.use('/', express.static(__dirname + '/web')) // web编译后静态文件托管
 
 app.listen(3000, () => {
   console.log('listening on port 3000')
