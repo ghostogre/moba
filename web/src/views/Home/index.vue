@@ -33,7 +33,7 @@
             class="py-2 fs-lg flex-row"
             tag="li"
             :to="{ name: 'articles', params: {id: item._id} }">
-            <span class="text-info">[{{item.name}}]</span>
+            <span class="text-info">[{{item.categoryName}}]</span>
             <span class="px-2">|</span>
             <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{item.title}}</span>
             <span class="text-dark fs-sm">{{item.createdAt | date}}</span>
