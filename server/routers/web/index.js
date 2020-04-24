@@ -61,21 +61,21 @@ module.exports = app => {
     //   }
     // ])
 
-    // const subCats = cats.map(v => v._id)
-    // cats.unshift({
-    //   name: '热门',
-    //   newsList: await Article.find().where({
-    //     categories: { $in: subCats } // $in查询关键字，满足后面的数组内就可以查出来
-    //   }).populate('categories').limit(5).lean()
-    // })
+    const subCats = cats.map(v => v._id)
+    cats.unshift({
+      name: '热门',
+      newsList: await Article.find().where({
+        categories: { $in: subCats } // $in查询关键字，满足后面的数组内就可以查出来
+      }).populate('categories').limit(5).lean()
+    })
 
-    // cats.map(cat => {
-    //   cat.newsList.map(news => {
-    //     // 热门特殊处理
-    //     news.categoryName = cat.name === '热门' ? news.categories[0].name : cat.name
-    //     return news
-    //   })
-    // })
+    cats.map(cat => {
+      cat.newsList.map(news => {
+        // 热门特殊处理
+        news.categoryName = cat.name === '热门' ? news.categories[0].name : cat.name
+        return news
+      })
+    })
     res.send(cats)
   })
 
