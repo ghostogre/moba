@@ -35,7 +35,7 @@ module.exports = app => {
       populate: {
         path: 'newsList'
       }
-    })
+    }).lean()
     // 这种方法有个问题
 
     // const parent = await Category.findOne({
