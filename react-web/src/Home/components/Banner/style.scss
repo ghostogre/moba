@@ -1,0 +1,15 @@
+.swiper-container{
+  --swiper-theme-color: #ffffff;
+  --swiper-pagination-color: #007aff;
+}
+
+.pagination-home {
+  .swiper-pagination-bullet {
+    opacity: 1;
+    border-radius: .153846rem /* 2/13 */;
+    background: map-get($map: $colors, $key: 'white');
+    &.swiper-pagination-bullet-active {
+      background: map-get($map: $colors, $key: 'info');
+    }
+  }
+}
