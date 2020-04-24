@@ -13,16 +13,11 @@ require('./plugins/db')(app)
 require('./routers/admin')(app)
 require('./routers/web')(app)
 app.use('/uploads', express.static(__dirname + '/uploads')) // 静态文件托管
-<<<<<<< HEAD
 // app.use('/admin', express.static(__dirname + '/admin')) // admin编译后静态文件托管
-// app.use('/', express.static(__dirname + '/web')) // web编译后静态文件托管
+app.use('/', express.static(__dirname + '/web')) // web编译后静态文件托管
 
 // app.use('/admin', history())
 // app.use('/', history())
-=======
-app.use('/admin', express.static(__dirname + '/admin')) // admin编译后静态文件托管
-app.use('/', express.static(__dirname + '/web')) // web编译后静态文件托管
->>>>>>> 2cbe584d1620df217826b1439d0b1eff4a025693
 
 app.listen(3000, () => {
   console.log('listening on port 3000')
