@@ -125,7 +125,7 @@ export default {
   methods: {
     async fetchNewsList () {
       const res = await this.$http.get('/news/list')
-      this.newsCats = res.data
+      this.newsCats = res.data.children
     },
     async fetchHeroList () {
       const res = await this.$http.get('/heroes/list')
