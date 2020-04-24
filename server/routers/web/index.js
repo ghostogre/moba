@@ -28,6 +28,7 @@ module.exports = app => {
   })
 
   router.get('/news/list', async (req, res) => {
+    // 不能简单的使用popluate
     // const cats = await Category.findOne({
     //   name: '新闻分类'
     // }).populate({ // 关联表
@@ -36,7 +37,6 @@ module.exports = app => {
     //     path: 'newsList'
     //   }
     // }).lean()
-    // 这种方法有个问题
 
     const parent = await Category.findOne({
       name: '新闻分类'
