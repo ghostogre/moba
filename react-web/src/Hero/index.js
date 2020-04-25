@@ -4,7 +4,7 @@ class Hero extends Component {
   render() {
     return (
       <div>
-        
+        HERO
       </div>
     );
   }

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import AsyncComponent from '../utils/AsyncComponent';
 import moment from 'moment';
 import './style.scss';
-
-const Banner = AsyncComponent(() => import('./components/Banner'));
-const Category = AsyncComponent(() => import('./components/Category'));
-const ListCard = AsyncComponent(() => import('../components/ListCard'));
-const MLink = AsyncComponent(() => import('../components/MLink'));
+import Banner from './components/Banner';
+import Category from './components/Category';
+import ListCard from '../components/ListCard';
+import MLink from '../components/MLink';
+import HomeHeader from './components/HomeHeader';
 
 const guides = [
   {
@@ -104,6 +103,7 @@ class Home extends Component {
   render() {
     return (
       <React.Fragment>
+        <HomeHeader></HomeHeader>
         <Banner data={[1, 2, 3]}></Banner>
         <Category data={guides}></Category>
         <ListCard categories={newsList} title="新闻资讯" slot={newsSlot} swiperName='news-swiper'></ListCard>
