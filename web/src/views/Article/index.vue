@@ -3,7 +3,7 @@
     <div class="flex-row py-3 px-2 border-bottom">
       <div class="iconfont icon-back text-blue"></div>
       <strong class="flex-1 text-blue">{{model.title}}</strong>
-      <div class="text-grey fs-sm">{{model.createdAt}}</div>
+      <div class="text-grey fs-sm">{{model.createdAt | formatDate}}</div>
     </div>
     <div v-html="model.content" class="px-3 article-body fs-lg"></div>
     <div class="px-3 py-3 border-top">
