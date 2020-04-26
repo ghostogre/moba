@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Swiper from 'swiper';
-import 'swiper/css/swiper.css';
+import MSwiper from '../MSwiper';
 import Card from '../Card';
 
 class ListCard extends Component {
@@ -28,41 +27,24 @@ class ListCard extends Component {
           }
         </ul>
         <div className="pt-3" style={{boxSizing: 'border-box'}}>
-          <div className="swiper-container" id={swiperName}>
-            <div className="swiper-wrapper">
-              {
-                categories.map((category, i) => {
-                  return (slot ? slot(category, i) : null);
-                })
-              }
-            </div>
-          </div>
+          <MSwiper
+            swiperName={swiperName}
+            slideChange={this.switchCategory}
+            index={activeIndex}
+            slotArray={
+              categories.map((category, i) => {
+                return (slot ? slot(category, i) : null);
+              })
+            }></MSwiper>
         </div>
       </Card>
     );
-  }
-  componentDidMount () {
-    // 类名需要唯一，不然this.swiper会是一个Swiper数组
-    // 当一个页面多个swiper的时候需要使用id进行区分
-    // 可以给每个容器加上ID或Class区分，要保留默认的类名swiper-container。
-    const { swiperName } = this.props;
-    this.swiper = new Swiper(`#${swiperName}`, {
-      loop: false,
-      on: {
-        slideChange: () => {
-          this.setState({
-            activeIndex: this.swiper.realIndex
-          })
-        }
-      }
-    });
   }
   // 切换分类
   switchCategory = (index) => {
     this.setState({
       activeIndex: index
-    });
-    this.swiper.slideTo(index);
+    })
   }
 }
 

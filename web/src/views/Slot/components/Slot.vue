@@ -60,12 +60,10 @@ export default {
       y3: 0,
       playDefaultCircle: 6, // 默认滚动圈数
       height: 0,
-      timer1: null,
-      timer2: null,
-      timer3: null,
       resultIndex: -1,
-      speed: 0.4,
-      slowSpeed: 0.2
+      speed: 0.04,
+      slowSpeed: 0.02,
+      isRunning: false
     }
   },
   computed: {
@@ -91,6 +89,10 @@ export default {
   methods: {
     // 点击开始
     begin () {
+      if (this.isRunning) {
+        return
+      }
+      this.isRunning = true
       this.resultIndex = -1
       this.$emit('start')
       this.running()
@@ -123,13 +125,14 @@ export default {
       let lastComplete = true // 最后一圈是否跑完了
       let g = this.speed * this.height
       let slow = this.slowSpeed * this.height
-      let t = setInterval(() => {
+      const func = () => {
         if ((circleNumber < this.playDefaultCircle) || (this.resultIndex === -1)) { // 保证返回之前和约定次数之前都会在滚动
           this[key] += g
           if (this[key] > (this.data.length * this.height)) { // 无限滚动的效果
             circleNumber++
             this[key] = this[key] - (this.data.length * this.height)
           }
+          window.requestAnimationFrame(func)
         } else {
           // 保证让他多滚动一圈
           if (lastComplete) {
@@ -138,14 +141,17 @@ export default {
               lastComplete = false
               this[key] = this[key] - (this.data.length * this.height)
             }
+            window.requestAnimationFrame(func)
           } else if ((this[key] + slow) < this.scrollEndDistance) {
             this[key] += slow
+            window.requestAnimationFrame(func)
           } else {
             this[key] = this.scrollEndDistance
-            clearInterval(t)
+            this.isRunning = false
           }
         }
-      }, 80)
+      }
+      window.requestAnimationFrame(func)
     }
   },
   watch: {

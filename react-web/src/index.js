@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './containers/App';
 import './assets/css/style.scss';
+import './assets/font/iconfont.css';
 // import * as serviceWorker from './serviceWorker';
 // React.StrictMode: StrictMode 不会渲染任何真实的UI。它为其后代元素触发额外的检查和警告。
 ReactDOM.render(

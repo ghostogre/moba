@@ -1,0 +1,31 @@
+  @import '../../../../assets/css/variables';
+  .nav-icons {
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    .nav-item {
+      width: 25%;
+      border-left: 1px solid $border-color;
+      &:nth-child(4n + 1) {
+        border-color: transparent;
+      }
+    }
+  }
+
+  .sprite-version {
+    background: url(../../../../assets/images/version-icon.png) no-repeat 0 0;
+    background-size: 1.538462rem /* 20/13 */;
+    width: 1.615385rem /* 21/13 */;
+    height: 1.846154rem /* 24/13 */;
+  }
+
+  .heroAvatar {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 100%; // 设置成百分比的时候就是相对于父元素宽度
+    &__img {
+      position: absolute;
+      height: 100%;
+      left: 0;
+    }
+  }

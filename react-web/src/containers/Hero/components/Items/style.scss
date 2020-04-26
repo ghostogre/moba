@@ -1,0 +1,12 @@
+@import '../../../../assets/css/variables.scss';
+.skills {
+  img.icon {
+    width: 5.385rem /* 70/13 */;
+    height: 5.385rem /* 70/13 */;
+    border: .231rem /* 3/13 */ solid map-get($map: $colors, $key: 'white');
+    &.active {
+      border-color: map-get($map: $colors, $key: 'primary');
+    }
+    border-radius: 50%;
+  }
+}

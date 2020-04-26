@@ -4,7 +4,7 @@
       <img src="../../assets/logo.png" height="30" alt="">
       <div class="px-2 flex-1">
         <div class="text-white">王者荣耀</div>
-        <span class="ml-2">攻略站</span>
+        <span class="ml-2 text-white">攻略站</span>
       </div>
       <router-link class="text-white" to="/" tag="div">更多英雄 &gt;</router-link>
     </div>

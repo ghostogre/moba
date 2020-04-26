@@ -26,7 +26,7 @@ Card.propTypes = {
 
 Card.defaultProps = {
   title: '',
-  icon: '',
+  icon: 'menu',
   plain: false
 }
 

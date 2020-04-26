@@ -1,0 +1,21 @@
+.top {
+  height: 50vw;
+  background: #fff no-repeat top center;
+  background-size: auto 100%;
+  .info {
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+    .scores {
+      .badge {
+        margin: 0 0.25rem;
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        text-align: center;
+        line-height: .9rem;
+        border-radius: 50%;
+        font-size: .75rem;
+        border: 1px solid rgba($color: #fff, $alpha: .2);
+      }
+    }
+  }
+}
