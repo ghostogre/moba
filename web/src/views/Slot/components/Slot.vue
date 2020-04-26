@@ -61,8 +61,8 @@ export default {
       playDefaultCircle: 6, // 默认滚动圈数
       height: 0,
       resultIndex: -1,
-      speed: 0.04,
-      slowSpeed: 0.02,
+      speed: 0.1,
+      slowSpeed: 0.05,
       isRunning: false
     }
   },
