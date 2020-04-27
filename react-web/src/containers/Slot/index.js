@@ -8,7 +8,7 @@ class Slot extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      match: () => false
+      matchIndex: -1
     }
   }
   render() {
@@ -18,7 +18,7 @@ class Slot extends Component {
         <section className="slot-machine">
           <SlotMachine
             scrollList={heroes.length > 0 ? heroes : []}
-            matchResult={this.state.match}
+            matchIndex={this.state.matchIndex}
             imgLabel="avatar"
             handleStart={this.requestResult}
           ></SlotMachine>
@@ -30,13 +30,10 @@ class Slot extends Component {
     // 延时任务
     setTimeout(() => {
       // 伪随机
-      const index = Math.floor((heroes.length - 1) * Math.random())
-      let id = heroes[index]._id
+      const index = Math.floor((heroes.length - 1) * Math.random());
       this.setState({
-        match: (item) => {
-          return item._id === id
-        }
-      })
+        matchIndex: index
+      });
     }, 3000);
   }
 }

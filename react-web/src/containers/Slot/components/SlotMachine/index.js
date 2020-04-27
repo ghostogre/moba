@@ -14,15 +14,16 @@ class SlotMachine extends Component {
     };
   }
   render() {
-    const { scrollList, imgLabel, btnText } = this.props;
+    const { imgLabel, btnText, scrollList } = this.props;
     const { y1, y2, y3 } = this.state;
+    const showList = scrollList.length >= 1 ? [...scrollList, scrollList[0]] : [];
     return (
       <div className="slot" style={{ backgroundImage: `url(${bg})` }}>
         <div className="slot-list clearfix px-3 py-2">
           <div ref={this.wrapperHeight} className="slot-listWrapper flex-row">
             <ul className="slot-list__line flex-1 mr-1" style={{transform: `translateY(-${y1}px)`}}>
               {
-                scrollList.map((item, index) => {
+                showList.map((item, index) => {
                   return (
                     <li className="slot-item bg-light text-center py-1" key={item._id + index}
                       ><img src={item[imgLabel]} alt=""/></li>
@@ -32,7 +33,7 @@ class SlotMachine extends Component {
             </ul>
             <ul className="slot-list__line flex-1 mr-1" style={{transform: `translateY(-${y2}px)`}}>
               {
-                scrollList.map((item, index) => {
+                showList.map((item, index) => {
                   return (
                     <li className="slot-item bg-light text-center py-1" key={item._id + index}
                       ><img src={item[imgLabel]} alt=""/></li>
@@ -42,7 +43,7 @@ class SlotMachine extends Component {
             </ul>
             <ul className="slot-list__line flex-1 mr-1" style={{transform: `translateY(-${y3}px)`}}>
               {
-                scrollList.map((item, index) => {
+                showList.map((item, index) => {
                   return (
                     <li className="slot-item bg-light text-center py-1" key={item._id + index}
                       ><img src={item[imgLabel]} alt=""/></li>
@@ -64,12 +65,12 @@ class SlotMachine extends Component {
   }
   // 开始运行
   begin = () => {
-    if (this.isRunning) { // 运行中
+    if (this.isRunning || this.props.scrollList.length === 0) { // 运行中
       return;
     }
     this.isRunning = false;
-    this.resultIndex = -1
     const { timeout } = this.props;
+    this.props.handleStart();
     // 处理滚动
     this.scroll('y1');
     let timer2 = setTimeout(() => {
@@ -88,51 +89,57 @@ class SlotMachine extends Component {
     const length = scrollList.length;
     let circleNumber = 0; // 圈数
     let lastComplete = true; // 最后一圈是否跑完了
-    let g = 0.04 * wrapperHeight; // 快速
-    let slow = 0.02 * wrapperHeight; // 慢速
+    let g = 0.1 * wrapperHeight; // 快速
+    let slow = 0.05 * wrapperHeight; // 慢速
     const func = () => {
-      const scrollEndDistance = this.resultIndex * wrapperHeight;
-      if ((circleNumber < 6) || (this.resultIndex === -1)) { // 保证返回之前和约定次数之前都会在滚动
-        this.setState((prevState) => prevState[key] += g);
-        if (this.state[key] > (length * wrapperHeight)) { // 无限滚动的效果
+      const { matchIndex } = this.props;
+      const scrollEndDistance = matchIndex * wrapperHeight;
+      if ((circleNumber < 5) || (matchIndex === -1)) { // 保证返回之前和约定次数之前都会在滚动
+        let next = this.state[key] + g;
+        if (next > (length * wrapperHeight)) { // 无限滚动的效果
           circleNumber++;
-          this.setState((prevState) => prevState[key] - (length * wrapperHeight));
+          this.setState({
+            [key]: next - (length * wrapperHeight)
+          });
+        } else {
+          this.setState({
+            [key]: next
+          })
         }
         window.requestAnimationFrame(func);
       } else {
         // 保证让他多滚动一圈
         if (lastComplete) {
-          this.setState((prevState) => prevState[key] += slow);
+          this.setState((prevState) => {
+            return {
+              [key]: prevState[key] += slow
+            }
+          });
           if (this.state[key] > (length * wrapperHeight)) { // 无限滚动的效果
             lastComplete = false;
-            this.setState((prevState) => prevState[key] - (length * wrapperHeight));
+            this.setState((prevState) => {
+              return {
+                [key]: prevState[key] - (length * wrapperHeight)
+              }
+            });
           }
           window.requestAnimationFrame(func);
         } else if ((this.state[key] + slow) < scrollEndDistance) {
-          this.setState((prevState) => prevState[key] += slow);
+          this.setState((prevState) => {
+            return {
+              [key]: prevState[key] += slow
+            }
+          });
           window.requestAnimationFrame(func);
         } else {
-          console.log(scrollEndDistance)
           this.setState({
             [key]: scrollEndDistance
           });
-          console.log(scrollEndDistance)
           this.isRunning = false;
         }
       }
     }
     window.requestAnimationFrame(func);
-  }
-  getResultIndex () {
-    // 当定时器执行到的时候
-    const { matchResult, scrollList } = this.props;
-    // 获取结果
-    scrollList.some((item, index) => {
-      if (matchResult(item)) {
-        this.resultIndex = index;
-      }
-      return false;
-    });
   }
 }
 
@@ -140,14 +147,14 @@ SlotMachine.defaultProps = {
   btnText: '开始',
   scrollList: [],
   imgLabel: '',
-  matchResult: () => false,
+  matchIndex: -1,
   timeout: 500, // 三个滚动延迟
   handleStart: () => {}
 };
 
 SlotMachine.propTypes = {
   scrollList: PropTypes.array.isRequired,
-  matchResult: PropTypes.func.isRequired,
+  matchIndex: PropTypes.number.isRequired,
   imgLabel: PropTypes.string.isRequired,
   timeout: PropTypes.number,
   handleStart: PropTypes.func.isRequired

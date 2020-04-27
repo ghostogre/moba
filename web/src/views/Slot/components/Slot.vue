@@ -127,10 +127,12 @@ export default {
       let slow = this.slowSpeed * this.height
       const func = () => {
         if ((circleNumber < this.playDefaultCircle) || (this.resultIndex === -1)) { // 保证返回之前和约定次数之前都会在滚动
-          this[key] += g
-          if (this[key] > (this.data.length * this.height)) { // 无限滚动的效果
+          const next = this[key] + g
+          if (next > (this.data.length * this.height)) { // 无限滚动的效果
             circleNumber++
-            this[key] = this[key] - (this.data.length * this.height)
+            this[key] = next - (this.data.length * this.height)
+          } else {
+            this[key] = next
           }
           window.requestAnimationFrame(func)
         } else {
