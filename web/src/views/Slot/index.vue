@@ -5,7 +5,7 @@
       <slot-machine
         :data="heroes"
         imgLabel="avatar"
-        :matchResult="match"
+        :matchIndex="matchIndex"
         @start="requestResult"
         bg="//game.gtimg.cn/images/yxzj/cp/a20161115tyf/flash_bg.jpg"
         ></slot-machine>
@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       heroes: [],
-      match: () => {}
+      matchIndex: -1
     }
   },
   created() {
@@ -38,10 +38,7 @@ export default {
       setTimeout(() => {
         // 伪随机
         const index = Math.floor((this.heroes.length - 1) * Math.random())
-        let id = this.heroes[index]._id
-        this.match = (item) => {
-          return item._id === id
-        }
+        this.matchIndex = index
       }, 3000)
     }
   }

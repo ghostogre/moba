@@ -48,9 +48,9 @@ export default {
       default: 200
     },
     // 匹配结果的方法
-    matchResult: {
-      type: Function,
-      default: () => {}
+    matchIndex: {
+      type: Number,
+      default: -1
     }
   },
   data () {
@@ -60,7 +60,6 @@ export default {
       y3: 0,
       playDefaultCircle: 6, // 默认滚动圈数
       height: 0,
-      resultIndex: -1,
       speed: 0.1,
       slowSpeed: 0.05,
       isRunning: false
@@ -77,8 +76,8 @@ export default {
       }
     },
     scrollEndDistance () {
-      if (this.resultIndex !== -1) {
-        return this.resultIndex * this.height 
+      if (this.matchIndex !== -1) {
+        return this.matchIndex * this.height 
       }
       return this.scrollList.length * this.height
     }
@@ -93,7 +92,6 @@ export default {
         return
       }
       this.isRunning = true
-      this.resultIndex = -1
       this.$emit('start')
       this.running()
     },
@@ -109,16 +107,6 @@ export default {
         clearTimeout(timer3)
       }, this.duration * 1.5)
     },
-    // 获取结果的index
-    getResultIndex () {
-      this.data.some((item, index) => {
-        if (this.matchResult(item)) {
-          this.resultIndex = index
-          return true
-        }
-        return false
-      })
-    },
     // 滚动
     scroll (key) {
       let circleNumber = 0
@@ -126,7 +114,7 @@ export default {
       let g = this.speed * this.height
       let slow = this.slowSpeed * this.height
       const func = () => {
-        if ((circleNumber < this.playDefaultCircle) || (this.resultIndex === -1)) { // 保证返回之前和约定次数之前都会在滚动
+        if ((circleNumber < this.playDefaultCircle) || (this.matchIndex === -1)) { // 保证返回之前和约定次数之前都会在滚动
           const next = this[key] + g
           if (next > (this.data.length * this.height)) { // 无限滚动的效果
             circleNumber++
@@ -154,13 +142,6 @@ export default {
         }
       }
       window.requestAnimationFrame(func)
-    }
-  },
-  watch: {
-    matchResult (newVal) {
-      if (newVal) {
-        this.getResultIndex()
-      }
     }
   }
 }

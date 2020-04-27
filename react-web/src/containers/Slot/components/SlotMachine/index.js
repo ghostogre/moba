@@ -59,9 +59,11 @@ class SlotMachine extends Component {
   }
   // 获取高度
   wrapperHeight = (wrapper) => {
-    this.setState({
-      wrapperHeight: wrapper.clientHeight
-    })
+    if (wrapper) {
+      this.setState({
+        wrapperHeight: wrapper.clientHeight
+      })
+    }
   }
   // 开始运行
   begin = () => {

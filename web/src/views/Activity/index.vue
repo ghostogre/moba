@@ -41,7 +41,6 @@ export default {
       addCoinTimer: null,
       // 点击冒泡列表
       bubbleArr: [],
-      preloaded: false, // 是否开始动画前的倒计时
       bubbleCanvas: null, // 气泡缓存
       coinCanvas: [] // 金币缓存
     }
@@ -64,7 +63,7 @@ export default {
       let isHidden = document.hidden;
       if (isHidden) {
         //失去焦点
-        clearInterval(this.addCoinTimer)
+        clearTimeout(this.addCoinTimer)
       } else {
         //未失去焦点
         this.createCoin()
@@ -83,7 +82,6 @@ export default {
             count++
             arr.splice(i, 1, image) // 替换数组中的图片链接为图片地址
             if (count === len) {
-              this.preloaded = true
               resolve()
             }
           }
