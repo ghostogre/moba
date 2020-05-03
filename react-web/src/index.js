@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 import './assets/css/style.scss';
 import './assets/font/iconfont.css';
+import { Provider } from 'react-redux';
+import store from './redux/store.js';
 // import * as serviceWorker from './serviceWorker';
 // React.StrictMode: StrictMode 不会渲染任何真实的UI。它为其后代元素触发额外的检查和警告。
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

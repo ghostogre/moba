@@ -130,7 +130,6 @@ class Activity extends Component {
     });
     // 点击了重叠的金币，只要最后一个，一般来说重叠的后来的会在上面
     if (clickedCoins.length > 0) {
-      this.count += 1;
       const len = clickedCoins.length;
       const bubble = {
         x: clickedCoins[len - 1].x,
