@@ -55,14 +55,14 @@ const fetchData = (method, endpoint, schema, params) => methods[method](endpoint
   .then(data => normalizeData(data, schema));
 
 // duck化数据
-const normalizeData = (data, schema) => {
+export const normalizeData = (data, schema) => {
   const { id, name } = schema;
   const kvObj = {};
   const ids = [];
   if (Array.isArray(data)) {
     data.map(item => {
       kvObj[item[id]] = item;
-      ids = item[id];
+      ids.push(item[id]);
     });
   } else {
     // 获取详情

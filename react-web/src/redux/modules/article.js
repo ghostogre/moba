@@ -1,11 +1,11 @@
-import articleSchema, { getArticleInfo } from './entities/article';
+import articleSchema, { getArticleInfo } from './entities/articles';
 import { FETCH_DATA, methodTypes } from '../middlewares/api';
 import url from '../../utils/url';
 // action types
 export const types = {
-  FETCH_ARTICLE_REQUEST: 'FETCH_ARTICLE_REQUEST',
-  FETCH_ARTICLE_SUCCESS: 'FETCH_ARTICLE_SUCCESS',
-  FETCH_ARTICLE_FAILURE: 'FETCH_ARTICLE_FAILURE'
+  FETCH_ARTICLE_REQUEST: 'ARTICLE/FETCH_ARTICLE_REQUEST',
+  FETCH_ARTICLE_SUCCESS: 'ARTICLE/FETCH_ARTICLE_SUCCESS',
+  FETCH_ARTICLE_FAILURE: 'ARTICLE/FETCH_ARTICLE_FAILURE'
 };
 
 // 异步actions

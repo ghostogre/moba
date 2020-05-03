@@ -63,6 +63,7 @@ module.exports = app => {
 
     const subCats = cats.map(v => v._id)
     cats.unshift({
+      _id: 0,
       name: '热门',
       newsList: await Article.find().where({
         categories: { $in: subCats } // $in查询关键字，满足后面的数组内就可以查出来
@@ -119,6 +120,7 @@ module.exports = app => {
 
     const subCats = cats.map(v => v._id)
     cats.unshift({
+      _id: 0,
       name: '热门',
       heroList: await Hero.find().where({
         categories: { $in: subCats } // $in查询关键字，满足后面的数组内就可以查出来
