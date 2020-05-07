@@ -25,8 +25,8 @@ class MSwiper extends Component {
     const { swiperName, swiperOptions = {}, slideChange } = this.props;
     this.swiper = new Swiper(`#${swiperName}`, {
       on: {
-        slideChange: () => {
-          slideChange(this.swiper.realIndex);
+        slideChangeTransitionStart () {
+          slideChange(this.realIndex);
         }
       },
       ...swiperOptions
@@ -37,8 +37,12 @@ class MSwiper extends Component {
   // 不能在这之中更新state
   // props如果是引用数据类型的话，当这个引用数据类型的地址不发生变化时，是不会触发componentWillReceiveProps
   componentDidUpdate (prevProps) {
-    const { index } = this.props;
-    if (index !== prevProps.index) {
+    const { index, slotArray } = this.props;
+    const { slotArray: prevSlots, index: prevIndex } = prevProps;
+    if (slotArray !== prevSlots) { // 动态数据更新
+      this.swiper.update();
+    }
+    if (index !== prevIndex) {
       this.swiper.slideTo(index);
     }
   }

@@ -1,4 +1,6 @@
 import axios from '../../utils/http';
+import { findNode, replaceNode } from '../../utils/resolvePath';
+
 export const FETCH_DATA = 'FETCH DATA';
 // 请求方式
 export const methodTypes = {
@@ -56,21 +58,51 @@ const fetchData = (method, endpoint, schema, params) => methods[method](endpoint
 
 // duck化数据
 export const normalizeData = (data, schema) => {
-  const { id, name } = schema;
+  const { id, name, sublistName } = schema;
   const kvObj = {};
   const ids = [];
-  if (Array.isArray(data)) {
+  if (sublistName) { // 分类下面的列表
+    const { sublistPath, subId } = schema;
+    const catObj = {};
+    data.forEach(item => {
+      const key = item[id];
+      let sublist = findNode(item, sublistPath);
+      const catIds = sublist.map(n => {
+        catObj[n[subId]] = n;
+        return n[subId];
+      });
+      replaceNode(item, sublistPath, catIds);
+      kvObj[key] = item;
+      ids.push(key);
+    });
+    return {
+      [name]: kvObj,
+      [sublistName]: catObj,
+      ids
+    };
+  } else if (Array.isArray(data)) { // 普通列表
     data.map(item => {
       kvObj[item[id]] = item;
       ids.push(item[id]);
     });
-  } else {
+    return {
+      [name]: kvObj,
+      ids
+    };
+  } else if (Object.prototype.toString.call(data) === '[object Object]') { // 返回对象
     // 获取详情
     kvObj[data[id]] = data;
     ids.push(data[id]);
+    // 对象传ids是为了防止类似首页广告这种情况，无法从url获取id的情况
+    // 有的详情接口不需要传参
+    return {
+      [name]: kvObj,
+      ids
+    };
+  } else {
+    // 为了兼容没有返回的情况
+    return {
+      ids
+    };
   }
-  return {
-    [name]: kvObj,
-    ids
-  };
 };

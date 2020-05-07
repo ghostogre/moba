@@ -6,7 +6,10 @@ import ListCard from '../../components/ListCard';
 import MLink from '../../components/MLink';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions as homeActions, getHeroes, getArticles } from '../../redux/modules/home';
+import { findNode }  from '../../utils/resolvePath';
+import { sublistPath as herolistPath } from '../../redux/modules/entities/heroCategories';
+import { sublistPath as articlesPath } from '../../redux/modules/entities/articleCategories';
+import { actions as homeActions, getHeroes, getArticles, getAds } from '../../redux/modules/home';
 import './style.scss';
 
 const guides = [
@@ -57,7 +60,7 @@ const newsSlot = function (category, index) {
   return (
     <ul key={index} className="w-100 swiper-slide">
       {
-        category.newsList.map((item) => {
+        findNode(category, articlesPath).map((item) => {
           return (
             <MLink
               key={item._id}
@@ -81,18 +84,20 @@ const heroSlot = function (hero, i) {
   return (
     <ul key={hero._id} className="flex-row flex-wrap" style={{margin: '0 -0.5rem'}}>
       {
-        hero.heroList.map((item) => {
-          return (<MLink
-            tag="li"
-            key={item._id}
-            to={`/hero/${item._id}`}
-            className="p-2 text-center"
-            style={{'width': '20%'}}>
-            <div className='heroAvatar'>
-              <img className="heroAvatar__img" alt="" src={item.avatar}/>
-            </div>
-            <div>{item.name}</div>
-          </MLink>)
+        findNode(hero, herolistPath).map((item) => {
+          return (
+            <MLink
+              tag="li"
+              key={item._id}
+              to={`/hero/${item._id}`}
+              className="p-2 text-center"
+              style={{'width': '20%'}}>
+              <div className='heroAvatar'>
+                <img className="heroAvatar__img" alt="" src={item.avatar}/>
+              </div>
+              <div>{item.name}</div>
+            </MLink>
+          );
         })
       }
     </ul>
@@ -100,27 +105,60 @@ const heroSlot = function (hero, i) {
 }
 
 class Home extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      newsIndex: 0,
+      heroIndex: 0
+    };
+  }
   render() {
-    const { heroes = [], articles = [] } = this.props;
+    const { heroes = [], articles = [], ads = [] } = this.props;
+    const { newsIndex, heroIndex } = this.state;
     return (
       <React.Fragment>
-        <Banner data={[1, 2, 3]}></Banner>
+        <Banner data={ads}></Banner>
         <Category data={guides}></Category>
-        <ListCard categories={articles} title="新闻资讯" slot={newsSlot} swiperName='news-swiper'></ListCard>
-        <ListCard categories={heroes} title="英雄列表" icon="hero" swiperName='hero-swiper' slot={heroSlot}></ListCard>
+        <ListCard
+          categories={articles}
+          index={newsIndex}
+          title="新闻资讯"
+          slot={newsSlot}
+          slideChange={this.articleSlide}
+          swiperName='news-swiper'></ListCard>
+        <ListCard
+          categories={heroes}
+          index={heroIndex}
+          title="英雄列表"
+          icon="hero"
+          slideChange={this.heroSlide}
+          swiperName='hero-swiper'
+          slot={heroSlot}></ListCard>
       </React.Fragment>
     );
   }
   componentDidMount () {
     this.props.homeActions.loadHeroList();
     this.props.homeActions.loadArticleList();
+    this.props.homeActions.loadHomeAds();
+  }
+  articleSlide = idx => {
+    this.setState({
+      newsIndex: idx
+    });
+  }
+  heroSlide = idx => {
+    this.setState({
+      heroIndex: idx
+    });
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     heroes: getHeroes(state),
-    articles: getArticles(state)
+    articles: getArticles(state),
+    ads: getAds(state)
   };
 };
 

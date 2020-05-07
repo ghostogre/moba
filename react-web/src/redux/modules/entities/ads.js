@@ -6,12 +6,8 @@ export const schema = {
 };
 
 // action types
-const types = {
-};
 
 // 异步actions
-const actions = {
-};
 
 // 同步action creator
 
@@ -20,3 +16,4 @@ const actions = {
 export default createReducer(schema.name);
 
 // selectors
+export const getAdsById = (state, id) => state.entities.ads[id];

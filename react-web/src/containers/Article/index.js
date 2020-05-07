@@ -3,7 +3,7 @@ import moment from 'moment';
 import './style.scss';
 import MLink from '../../components/MLink';
 import { connect } from 'react-redux';
-import { actions as articleAction, getArticleById } from '../../redux/modules/article';
+import { actions as articleActions, getArticleById } from '../../redux/modules/article';
 import { bindActionCreators } from 'redux';
 
 class Article extends Component {
@@ -26,14 +26,14 @@ class Article extends Component {
               </div>
               <div className="pt-2">
                 {
-                  article.related.map((item) => {
+                  article.related ? article.related.map((item) => {
                     return (
                       <MLink
                         key={item._id}
                         to={`/articles/${item._id}`}
                         className="py-2 mt-2">{item.title}</MLink>
                     )
-                  })
+                  }): null
                 }
               </div>
             </div>
@@ -48,7 +48,7 @@ class Article extends Component {
     const { article } = this.props;
     if (!article) {
       const id = this.props.match.params.id;
-      this.props.articleAction.loadArticleInfo(id);
+      this.props.articleActions.loadArticleInfo(id);
     }
   }
 }
@@ -62,7 +62,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    articleAction: bindActionCreators(articleAction, dispatch)
+    articleActions: bindActionCreators(articleActions, dispatch)
   };
 };
 
