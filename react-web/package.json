@@ -19,7 +19,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "swiper": "^5.3.7"
+    "swiper": "^6.5.1"
   },
   "scripts": {
     "start": "cross-env PORT=8080 react-scripts start",
